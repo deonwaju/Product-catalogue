@@ -1,6 +1,7 @@
 package com.deonolarewaju.product_catalogue.data.local.entities
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity
 data class ProductEntity(
@@ -8,7 +9,7 @@ data class ProductEntity(
     val category: String,
     val description: String,
     val discountPercentage: Double,
-    val id: Int,
+    @PrimaryKey val id: Int,
     val images: List<String>,
     val price: Int,
     val rating: Double,
