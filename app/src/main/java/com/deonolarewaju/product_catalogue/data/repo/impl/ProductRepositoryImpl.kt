@@ -6,17 +6,22 @@ import com.deonolarewaju.product_catalogue.data.mappers.toProduct
 import com.deonolarewaju.product_catalogue.data.mappers.toProductEntity
 import com.deonolarewaju.product_catalogue.data.remote.datasources.interfaces.IProductRDS
 import com.deonolarewaju.product_catalogue.data.repo.interfaces.IProductRepository
+import com.deonolarewaju.product_catalogue.di.AppDispatchers
+import com.deonolarewaju.product_catalogue.di.Dispatcher
 import com.deonolarewaju.product_catalogue.domain.model.Product
 import com.deonolarewaju.product_catalogue.util.Resource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class ProductRepositoryImpl(
+class ProductRepositoryImpl @Inject constructor(
     private val iProductLDS: IProductLDS,
     private val iProductRDS: IProductRDS,
+    @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : IProductRepository {
     override fun fetchProducts(refreshDataFromRemote: Boolean): Flow<Resource<List<Product>>> = flow {
         emit(Resource.Loading(true))
@@ -48,7 +53,7 @@ class ProductRepositoryImpl(
         } finally {
             emit(Resource.Loading(false))
         }
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun delete() = iProductLDS.deleteProducts()
     override suspend fun getProducts(): List<ProductEntity> = iProductLDS.getProducts()
