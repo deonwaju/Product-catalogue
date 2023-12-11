@@ -8,6 +8,6 @@ interface IProductLDS {
 
     suspend fun upsertProducts(product: List<ProductEntity>)
     suspend fun delete()
-    fun getProducts(): List<ProductEntity>
+    suspend fun getProducts(): List<ProductEntity>
     suspend fun getProduct(id: Int): ProductEntity?
 }

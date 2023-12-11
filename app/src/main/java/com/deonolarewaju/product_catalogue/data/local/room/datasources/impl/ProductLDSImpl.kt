@@ -12,7 +12,7 @@ class ProductLDSImpl(
 
     override suspend fun delete() = dao.delete()
 
-    override fun getProducts(): List<ProductEntity> = dao.getProducts()
+    override suspend fun getProducts(): List<ProductEntity> = dao.getProducts()
 
     override suspend fun getProduct(id: Int): ProductEntity? = dao.getProduct(id)
 }

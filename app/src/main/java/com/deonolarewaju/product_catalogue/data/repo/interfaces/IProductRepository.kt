@@ -10,6 +10,6 @@ interface IProductRepository {
     suspend fun fetchProducts(): Flow<Resource<ProductsList>>
     suspend fun upsertProducts(product: List<ProductEntity>)
     suspend fun delete()
-    fun getProducts(): Flow<List<ProductEntity>>
+    suspend fun getProducts(): List<ProductEntity>
     suspend fun getProduct(id: Int): ProductEntity?
 }

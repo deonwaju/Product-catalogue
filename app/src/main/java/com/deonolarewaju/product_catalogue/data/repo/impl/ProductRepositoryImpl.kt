@@ -18,14 +18,6 @@ class ProductRepositoryImpl(
 ) : IProductRepository {
     override suspend fun fetchProducts(): Flow<Resource<ProductsList>> = flow {
         emit(Resource.Loading(true))
-        val products = iProductLDS.getProducts()
-
-        val checkDb = products.isEmpty()
-        val loadFromCache = !checkDb
-        if (loadFromCache) {
-            emit(Resource.Loading(false))
-            return@flow
-        }
 
         val remoteProducts = try {
             iProductRDS.fetchProducts()
@@ -41,17 +33,12 @@ class ProductRepositoryImpl(
                     it.toProductEntity()
                 }
             )
-
             emit(
                 Resource.Success(
-                    data = iProductLDS.getProducts()
-                        .map {
-                            it.toProduct()
-                        }
+                    data = productsList
                 )
             )
         }
-
     }
 
     override suspend fun upsertProducts(product: List<ProductEntity>) =
@@ -59,25 +46,8 @@ class ProductRepositoryImpl(
 
     override suspend fun delete() = iProductLDS.delete()
 
-    override fun getProducts(): Flow<List<ProductEntity>> = iProductLDS.getProducts()
+    override suspend fun getProducts(): List<ProductEntity> = iProductLDS.getProducts()
 
     override suspend fun getProduct(id: Int): ProductEntity? = iProductLDS.getProduct(id)
-
-    private fun saveProduct(product: ProductsList) =
-        product.products.map {
-            ProductEntity(
-                id = it.id,
-                brand = it.brand,
-                category = it.category,
-                description = it.description,
-                discountPercentage = it.discountPercentage,
-                images = it.images,
-                price = it.price,
-                rating = it.rating,
-                stock = it.stock,
-                thumbnail = it.thumbnail,
-                title = it.title
-            )
-        }.toList()
 
 }
