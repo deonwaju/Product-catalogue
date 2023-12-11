@@ -1,11 +1,11 @@
-package com.deonolarewaju.product_catalogue.data.local
+package com.deonolarewaju.product_catalogue.data.local.room.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.deonolarewaju.product_catalogue.data.local.entities.ProductEntity
+import com.deonolarewaju.product_catalogue.data.local.room.entities.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,7 +1,9 @@
-package com.deonolarewaju.product_catalogue.data.local.converter
+package com.deonolarewaju.product_catalogue.data.local.room.converter
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 
+@ProvidedTypeConverter
 class RoomDbConverters {
 
     @TypeConverter

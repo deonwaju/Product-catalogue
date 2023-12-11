@@ -1,8 +1,11 @@
-package com.deonolarewaju.product_catalogue.data.local.entities
+package com.deonolarewaju.product_catalogue.data.local.room.entities
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity
 data class ProductEntity(
     val brand: String,
@@ -16,4 +19,4 @@ data class ProductEntity(
     val stock: Int,
     val thumbnail: String,
     val title: String
-)
+): Parcelable
