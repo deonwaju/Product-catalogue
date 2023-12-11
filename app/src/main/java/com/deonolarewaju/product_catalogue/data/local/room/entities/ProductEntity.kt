@@ -8,11 +8,11 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity
 data class ProductEntity(
+    @PrimaryKey val id: Int,
     val brand: String,
     val category: String,
     val description: String,
     val discountPercentage: Double,
-    @PrimaryKey val id: Int,
     val images: List<String>,
     val price: Int,
     val rating: Double,

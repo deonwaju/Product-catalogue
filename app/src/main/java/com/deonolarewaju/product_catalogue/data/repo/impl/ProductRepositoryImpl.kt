@@ -10,10 +10,9 @@ import kotlinx.coroutines.flow.Flow
 class ProductRepositoryImpl(
     private val iProductLDS: IProductLDS,
     private val iProductRDS: IProductRDS
-): IProductRepository {
-    override suspend fun fetchProducts(): Flow<ProductsList> {
+) : IProductRepository {
+    override suspend fun fetchProducts(): Flow<ProductsList> =
         iProductRDS.fetchProducts()
-    }
 
     override suspend fun upsertProducts(product: List<ProductEntity>) =
         iProductLDS.upsertProducts(product)

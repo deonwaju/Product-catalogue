@@ -1,11 +1,11 @@
 package com.deonolarewaju.product_catalogue.domain.model
 
 data class Product(
+    val id: Int,
     val brand: String,
     val category: String,
     val description: String,
     val discountPercentage: Double,
-    val id: Int,
     val images: List<String>,
     val price: Int,
     val rating: Double,
