@@ -11,6 +11,7 @@ import com.deonolarewaju.product_catalogue.data.local.room.datasources.interface
 import com.deonolarewaju.product_catalogue.data.remote.ProductApi
 import com.deonolarewaju.product_catalogue.data.remote.datasources.impl.ProductRDSImpl
 import com.deonolarewaju.product_catalogue.data.remote.datasources.interfaces.IProductRDS
+import com.deonolarewaju.product_catalogue.data.repo.impl.ProductRepositoryImpl
 import com.deonolarewaju.product_catalogue.data.repo.interfaces.IProductRepository
 import com.deonolarewaju.product_catalogue.domain.usecases.ProductsUsecases
 import com.deonolarewaju.product_catalogue.domain.usecases.impl.DeleteProducts
@@ -54,7 +55,11 @@ object AppModule {
             .build()
     }
 
-
+    @Provides
+    @Singleton
+    fun provideProductsDao(
+        productsDatabase: ProductDatabase
+    ): ProductsDao = productsDatabase.productDao
 
     @Provides
     @Singleton
@@ -70,9 +75,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideProvideProductUsecases(
+    fun provideIProductRepository(
+        iProductLDS: IProductLDS,
+        iProductRDS: IProductRDS
+    ): IProductRepository = ProductRepositoryImpl(iProductLDS,iProductRDS)
+
+    @Provides
+    @Singleton
+    fun provideProductUsecases(
         iProductRepository: IProductRepository
-    ): ProductsUsecases{
+    ): ProductsUsecases {
         return ProductsUsecases(
             getProducts = GetProducts(iProductRepository),
             deleteProducts = DeleteProducts(iProductRepository),
