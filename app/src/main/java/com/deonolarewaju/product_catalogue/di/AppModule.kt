@@ -22,6 +22,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -63,32 +65,35 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideIProductRDS(
-        api: ProductApi
-    ): IProductRDS = ProductRDSImpl(api)
-
-    @Provides
-    @Singleton
     fun provideIProductLDS(
         productDao: ProductsDao
     ): IProductLDS = ProductLDSImpl(productDao)
 
     @Provides
     @Singleton
+    fun provideIProductRDS(
+        api: ProductApi
+    ): IProductRDS = ProductRDSImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @Provides
+    @Singleton
     fun provideIProductRepository(
         iProductLDS: IProductLDS,
-        iProductRDS: IProductRDS
-    ): IProductRepository = ProductRepositoryImpl(iProductLDS,iProductRDS)
+        iProductRDS: IProductRDS,
+        ioDispatcher: CoroutineDispatcher,
+    ): IProductRepository = ProductRepositoryImpl(iProductLDS,iProductRDS, ioDispatcher)
 
     @Provides
     @Singleton
     fun provideProductUsecases(
         iProductRepository: IProductRepository
-    ): ProductsUsecases {
-        return ProductsUsecases(
-            getProducts = GetProducts(iProductRepository),
-            deleteProducts = DeleteProducts(iProductRepository),
-            getProductById = GetProductById(iProductRepository),
-        )
-    }
+    ): ProductsUsecases = ProductsUsecases(
+        getProducts = GetProducts(iProductRepository),
+        deleteProducts = DeleteProducts(iProductRepository),
+        getProductById = GetProductById(iProductRepository),
+    )
 }
