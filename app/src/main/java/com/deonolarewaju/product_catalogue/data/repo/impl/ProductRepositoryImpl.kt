@@ -6,7 +6,7 @@ import com.deonolarewaju.product_catalogue.data.mappers.toProduct
 import com.deonolarewaju.product_catalogue.data.mappers.toProductEntity
 import com.deonolarewaju.product_catalogue.data.remote.datasources.interfaces.IProductRDS
 import com.deonolarewaju.product_catalogue.data.repo.interfaces.IProductRepository
-import com.deonolarewaju.product_catalogue.domain.model.ProductsList
+import com.deonolarewaju.product_catalogue.domain.model.Product
 import com.deonolarewaju.product_catalogue.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,34 +15,56 @@ import java.io.IOException
 
 class ProductRepositoryImpl(
     private val iProductLDS: IProductLDS,
-    private val iProductRDS: IProductRDS
+    private val iProductRDS: IProductRDS,
 ) : IProductRepository {
-    override suspend fun fetchProducts(): Flow<Resource<ProductsList>> = flow {
+    override fun fetchProducts(): Flow<Resource<List<Product>>> = flow {
+        emit(Resource.Loading(true))
 
-        try {
-            emit(Resource.Loading(true))
+        val localProductsList = iProductLDS.getProducts()
+        emit(Resource.Success(data = localProductsList.map { it.toProduct() }))
 
-            val remoteProducts = iProductRDS.fetchProducts()
-            remoteProducts.let { productsList ->
-                delete()
-                upsertProducts(productsList.products.map { it.toProductEntity() })
-                emit(Resource.Success(data = productsList))
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            emit(Resource.Error("An error occurred!!!"))
+        if (localProductsList.isNotEmpty()) {
+            emit(Resource.Loading(false))
+            return@flow
+        }
+
+        val remoteProducts = try {
+            iProductRDS.fetchProducts()
         } catch (e: HttpException) {
             e.printStackTrace()
             emit(Resource.Error("An error occurred!!!"))
+            null
+        } catch (e: IOException) {
+            e.printStackTrace()
+            emit(Resource.Error("An error occurred!!!"))
+            null
         } finally {
             emit(Resource.Loading(false))
         }
+
+        remoteProducts?.let { remoteProductsList ->
+            iProductLDS.deleteProducts()
+            iProductLDS.upsertProducts(
+                remoteProductsList.products.map {
+                    it.toProductEntity()
+                })
+
+            emit(
+                Resource.Success(
+                    data = iProductLDS.getProducts()
+                        .map {
+                            it.toProduct()
+                        })
+            )
+        }
+
+        emit(Resource.Success(remoteProducts?.products))
     }
 
     override suspend fun upsertProducts(product: List<ProductEntity>) =
         iProductLDS.upsertProducts(product)
 
-    override suspend fun delete() = iProductLDS.delete()
+    override suspend fun delete() = iProductLDS.deleteProducts()
     override suspend fun getProducts(): List<ProductEntity> = iProductLDS.getProducts()
     override suspend fun getProduct(id: Int): ProductEntity? = iProductLDS.getProduct(id)
 }

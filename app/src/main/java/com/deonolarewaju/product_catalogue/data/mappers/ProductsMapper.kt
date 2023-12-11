@@ -4,6 +4,9 @@ import com.deonolarewaju.product_catalogue.data.local.room.entities.ProductEntit
 import com.deonolarewaju.product_catalogue.domain.model.Product
 
 
+
+
+
 fun ProductEntity.toProduct(): Product =
     Product(
         id = id,
@@ -16,7 +19,7 @@ fun ProductEntity.toProduct(): Product =
         rating = rating,
         stock = stock,
         thumbnail = thumbnail,
-        title = title,
+        title = title
     )
 
 fun Product.toProductEntity(): ProductEntity =
@@ -31,5 +34,5 @@ fun Product.toProductEntity(): ProductEntity =
         rating = rating,
         stock = stock,
         thumbnail = thumbnail,
-        title = title,
+        title = title
     )
