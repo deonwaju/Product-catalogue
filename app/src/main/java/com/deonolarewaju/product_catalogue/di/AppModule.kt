@@ -5,7 +5,17 @@ import androidx.room.Room
 import com.deonolarewaju.product_catalogue.BuildConfig
 import com.deonolarewaju.product_catalogue.data.local.room.ProductDatabase
 import com.deonolarewaju.product_catalogue.data.local.room.converter.RoomDbConverters
+import com.deonolarewaju.product_catalogue.data.local.room.dao.ProductsDao
+import com.deonolarewaju.product_catalogue.data.local.room.datasources.impl.ProductLDSImpl
+import com.deonolarewaju.product_catalogue.data.local.room.datasources.interfaces.IProductLDS
 import com.deonolarewaju.product_catalogue.data.remote.ProductApi
+import com.deonolarewaju.product_catalogue.data.remote.datasources.impl.ProductRDSImpl
+import com.deonolarewaju.product_catalogue.data.remote.datasources.interfaces.IProductRDS
+import com.deonolarewaju.product_catalogue.data.repo.interfaces.IProductRepository
+import com.deonolarewaju.product_catalogue.domain.usecases.ProductsUsecases
+import com.deonolarewaju.product_catalogue.domain.usecases.impl.DeleteProducts
+import com.deonolarewaju.product_catalogue.domain.usecases.impl.GetProductById
+import com.deonolarewaju.product_catalogue.domain.usecases.impl.GetProducts
 import com.deonolarewaju.product_catalogue.util.Constants.PRODUCT_DATABASE
 import dagger.Module
 import dagger.Provides
@@ -42,5 +52,31 @@ object AppModule {
             .addTypeConverter(RoomDbConverters())
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+
+
+    @Provides
+    @Singleton
+    fun provideIProductRDS(
+        api: ProductApi
+    ): IProductRDS = ProductRDSImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideIProductLDS(
+        productDao: ProductsDao
+    ): IProductLDS = ProductLDSImpl(productDao)
+
+    @Provides
+    @Singleton
+    fun provideProvideProductUsecases(
+        iProductRepository: IProductRepository
+    ): ProductsUsecases{
+        return ProductsUsecases(
+            getProducts = GetProducts(iProductRepository),
+            deleteProducts = DeleteProducts(iProductRepository),
+            getProductById = GetProductById(iProductRepository),
+        )
     }
 }
