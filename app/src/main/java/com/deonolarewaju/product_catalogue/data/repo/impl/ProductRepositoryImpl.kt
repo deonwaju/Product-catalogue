@@ -12,18 +12,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
 class ProductRepositoryImpl(
     private val iProductLDS: IProductLDS,
     private val iProductRDS: IProductRDS,
 ) : IProductRepository {
-    override fun fetchProducts(): Flow<Resource<List<Product>>> = flow {
+    override fun fetchProducts(refreshDataFromRemote: Boolean): Flow<Resource<List<Product>>> = flow {
         emit(Resource.Loading(true))
 
         val localProductsList = iProductLDS.getProducts()
         emit(Resource.Success(data = localProductsList.map { it.toProduct() }))
 
-        if (localProductsList.isNotEmpty()) {
+        val loadDataFromLocal = localProductsList.isNotEmpty() && !refreshDataFromRemote
+
+        if (loadDataFromLocal) {
             emit(Resource.Loading(false))
             return@flow
         }

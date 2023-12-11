@@ -6,7 +6,7 @@ import com.deonolarewaju.product_catalogue.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface IProductRepository {
-    fun fetchProducts(): Flow<Resource<List<Product>>>
+    fun fetchProducts(refreshDataFromRemote: Boolean): Flow<Resource<List<Product>>>
     suspend fun delete()
     suspend fun getProducts(): List<ProductEntity>
     suspend fun getProduct(id: Int): ProductEntity?
