@@ -9,10 +9,7 @@ class ProductLDSImpl(
     private val dao: ProductsDao
 ): IProductLDS {
     override suspend fun upsertProducts(product: List<ProductEntity>) = dao.upsertProducts(product)
-
     override suspend fun delete() = dao.delete()
-
     override suspend fun getProducts(): List<ProductEntity> = dao.getProducts()
-
     override suspend fun getProduct(id: Int): ProductEntity? = dao.getProduct(id)
 }
