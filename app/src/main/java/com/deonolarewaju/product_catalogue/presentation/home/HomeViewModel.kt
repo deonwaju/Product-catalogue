@@ -6,12 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deonolarewaju.product_catalogue.domain.usecases.ProductsUsecases
+import com.deonolarewaju.product_catalogue.util.Resource
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 class HomeViewModel @Inject constructor(
-    val productsUsecases: ProductsUsecases
+    private val productsUsecases: ProductsUsecases
 ) : ViewModel() {
 
     var state by mutableStateOf(ProductListState())
@@ -20,11 +22,34 @@ class HomeViewModel @Inject constructor(
         getProductsList()
     }
 
+    fun onEvent(event: ProductListEvent){
+        when (event){
+            ProductListEvent.Refresh -> getProductsList(true)
+        }
+    }
+
     private fun getProductsList(
         refreshDataFromRemote: Boolean = false
     ) {
         viewModelScope.launch {
-
+            productsUsecases.getProducts(refreshDataFromRemote)
+                .collect{ result ->
+                    when (result){
+                        is Resource.Success -> {
+                            result.data?.let {
+                                state = state.copy(
+                                    products = it
+                                )
+                            }
+                        }
+                        is Resource.Loading -> {
+                            state = state.copy(
+                                isLoading = result.isLoading
+                            )
+                        }
+                        is Resource.Error -> Unit
+                    }
+                }
         }
     }
 }
