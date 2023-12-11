@@ -1,5 +1,9 @@
 package com.deonolarewaju.product_catalogue.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Product(
     val id: Int,
     val brand: String,
@@ -12,4 +16,4 @@ data class Product(
     val stock: Int,
     val thumbnail: String,
     val title: String
-)
+): Parcelable

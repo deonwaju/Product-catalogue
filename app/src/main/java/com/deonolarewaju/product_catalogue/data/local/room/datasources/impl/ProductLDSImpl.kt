@@ -10,9 +10,9 @@ class ProductLDSImpl(
 ): IProductLDS {
     override suspend fun upsertProducts(product: List<ProductEntity>) = dao.upsertProducts(product)
 
-    override suspend fun delete(product: ProductEntity) = dao.delete(product)
+    override suspend fun delete() = dao.delete()
 
-    override fun getProducts(): Flow<List<ProductEntity>> = dao.getProducts()
+    override fun getProducts(): List<ProductEntity> = dao.getProducts()
 
     override suspend fun getProduct(id: Int): ProductEntity? = dao.getProduct(id)
 }

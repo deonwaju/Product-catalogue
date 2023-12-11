@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.flow
 
 class ProductRDSImpl(
     private val api: ProductApi
-): IProductRDS {
-    override suspend fun fetchProducts(): Flow<ProductsList> = flow {
+) : IProductRDS {
+    override suspend fun fetchProducts(): ProductsList =
         api.fetchAllProducts()
-    }
 }

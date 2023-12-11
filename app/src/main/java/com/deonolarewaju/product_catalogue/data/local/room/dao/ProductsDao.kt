@@ -13,11 +13,11 @@ interface ProductsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertProducts(product: List<ProductEntity>)
 
-    @Delete
-    suspend fun delete(product: ProductEntity)
+    @Query("DELETE FROM ProductEntity")
+    suspend fun delete()
 
     @Query("SELECT * FROM ProductEntity")
-    fun getProducts(): Flow<List<ProductEntity>>
+    fun getProducts(): List<ProductEntity>
 
     @Query("SELECT * FROM ProductEntity WHERE id=:id")
     suspend fun getProduct(id: Int): ProductEntity?
