@@ -28,41 +28,24 @@ class ProductRepositoryImpl(
             return@flow
         }
 
-        val remoteProducts = try {
-            iProductRDS.fetchProducts()
+        try {
+            val remoteProducts = iProductRDS.fetchProducts()
+            remoteProducts.let {
+                iProductLDS.deleteProducts()
+                iProductLDS.upsertProducts(it.products.map { it.toProductEntity() })
+
+                emit(Resource.Success(data = iProductLDS.getProducts().map { it.toProduct() }))
+            }
         } catch (e: HttpException) {
             e.printStackTrace()
-            emit(Resource.Error("An error occurred!!!"))
-            null
+            emit(Resource.Error("An error occurred while fetching remote data!"))
         } catch (e: IOException) {
             e.printStackTrace()
-            emit(Resource.Error("An error occurred!!!"))
-            null
+            emit(Resource.Error("An error occurred while fetching remote data!"))
         } finally {
             emit(Resource.Loading(false))
         }
-
-        remoteProducts?.let { remoteProductsList ->
-            iProductLDS.deleteProducts()
-            iProductLDS.upsertProducts(
-                remoteProductsList.products.map {
-                    it.toProductEntity()
-                })
-
-            emit(
-                Resource.Success(
-                    data = iProductLDS.getProducts()
-                        .map {
-                            it.toProduct()
-                        })
-            )
-        }
-
-        emit(Resource.Success(remoteProducts?.products))
     }
-
-    override suspend fun upsertProducts(product: List<ProductEntity>) =
-        iProductLDS.upsertProducts(product)
 
     override suspend fun delete() = iProductLDS.deleteProducts()
     override suspend fun getProducts(): List<ProductEntity> = iProductLDS.getProducts()

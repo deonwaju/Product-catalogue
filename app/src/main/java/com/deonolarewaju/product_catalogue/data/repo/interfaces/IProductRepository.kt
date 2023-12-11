@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IProductRepository {
     fun fetchProducts(): Flow<Resource<List<Product>>>
-    suspend fun upsertProducts(product: List<ProductEntity>)
     suspend fun delete()
     suspend fun getProducts(): List<ProductEntity>
     suspend fun getProduct(id: Int): ProductEntity?
