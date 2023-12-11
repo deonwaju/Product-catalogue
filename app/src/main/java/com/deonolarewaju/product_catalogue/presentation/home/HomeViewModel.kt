@@ -22,8 +22,8 @@ class HomeViewModel @Inject constructor(
         getProductsList()
     }
 
-    fun onEvent(event: ProductListEvent){
-        when (event){
+    fun onEvent(event: ProductListEvent) {
+        when (event) {
             ProductListEvent.Refresh -> getProductsList(true)
         }
     }
@@ -33,8 +33,8 @@ class HomeViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             productsUsecases.getProducts(refreshDataFromRemote)
-                .collect{ result ->
-                    when (result){
+                .collect { result ->
+                    when (result) {
                         is Resource.Success -> {
                             result.data?.let {
                                 state = state.copy(
@@ -42,12 +42,18 @@ class HomeViewModel @Inject constructor(
                                 )
                             }
                         }
+
                         is Resource.Loading -> {
+                            state = state.copy(isLoading = result.isLoading)
+                        }
+
+                        is Resource.Error -> {
                             state = state.copy(
-                                isLoading = result.isLoading
+                                isLoading = false,
+                                error = result.message,
+                                products = emptyList()
                             )
                         }
-                        is Resource.Error -> Unit
                     }
                 }
         }
