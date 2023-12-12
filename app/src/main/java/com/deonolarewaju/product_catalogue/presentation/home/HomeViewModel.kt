@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deonolarewaju.product_catalogue.domain.usecases.ProductsUsecases
 import com.deonolarewaju.product_catalogue.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+@HiltViewModel
 class HomeViewModel @Inject constructor(
     private val productsUsecases: ProductsUsecases
 ) : ViewModel() {

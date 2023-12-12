@@ -21,6 +21,4 @@ interface ProductsDao {
 
     @Query("SELECT * FROM ProductEntity WHERE id=:id")
     suspend fun getProduct(id: Int): ProductEntity?
-
-    suspend fun searchProducts(query: String): List<ProductEntity>
 }

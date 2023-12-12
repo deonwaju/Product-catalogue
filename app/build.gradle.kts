@@ -80,10 +80,13 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
     implementation("androidx.paging:paging-compose:1.0.0-alpha14")
+    implementation("androidx.compose.material:material:1.5.4")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha13")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
-//    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.2-alpha")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.2-alpha")
 
-    //Dagger - Hilt
+    // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.49")
     kapt("com.google.dagger:hilt-android-compiler:2.49")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
