@@ -13,8 +13,8 @@ object Dimens {
     val IndicatorSize = 14.dp
     val SmallIconSize = 11.dp
     val IconSize = 20.dp
-    val ProductCardSize = 100.dp
-    val ProductImageHeight = 248.dp
+    val ProductImageSize = 80.dp
+    val ProductCardSize = 120.dp
     val SmallTextSize = 8.sp
     val MediumTextSize = 16.sp
     val LargeTextSize = 24.sp

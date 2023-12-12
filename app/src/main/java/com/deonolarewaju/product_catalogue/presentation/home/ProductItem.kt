@@ -1,11 +1,9 @@
 package com.deonolarewaju.product_catalogue.presentation.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,21 +18,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.deonolarewaju.product_catalogue.R
 import com.deonolarewaju.product_catalogue.domain.model.Product
 import com.deonolarewaju.product_catalogue.util.Dimens.ExtraSmallPadding
 import com.deonolarewaju.product_catalogue.util.Dimens.ExtraSmallPadding2
-import com.deonolarewaju.product_catalogue.util.Dimens.MediumPadding1
 import com.deonolarewaju.product_catalogue.util.Dimens.MediumTextSize
 import com.deonolarewaju.product_catalogue.util.Dimens.ProductCardSize
+import com.deonolarewaju.product_catalogue.util.Dimens.ProductImageSize
+import com.deonolarewaju.product_catalogue.util.Dimens.SmallTextSize
 import java.text.DecimalFormat
 
 @Composable
@@ -48,10 +43,15 @@ fun ProductListItem(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column {
+        Column(
+            verticalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier
+                .padding(horizontal = ExtraSmallPadding)
+                .height(ProductCardSize)
+        ) {
             AsyncImage(
                 modifier = Modifier
-                    .size(ProductCardSize)
+                    .size(ProductImageSize)
                     .clip(MaterialTheme.shapes.medium),
                 model = ImageRequest.Builder(context).data(product.thumbnail)
                     .build(),
@@ -84,20 +84,20 @@ fun ProductListItem(
                 Text(
                     text = formatAsCurrency(discountPrice),
                     fontSize = MediumTextSize,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Light,
                 )
                 Spacer(modifier = Modifier.width(ExtraSmallPadding))
                 Text(
                     text = "$${product.price}",
                     fontSize = MediumTextSize,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Light,
                     color = colorResource(id = R.color.grey_fade_out)
                 )
             }
             Spacer(modifier = Modifier.height(ExtraSmallPadding2))
             Text(
                 text = product.description,
-                fontSize = MediumTextSize,
+                fontSize = SmallTextSize,
                 fontWeight = FontWeight.Light,
                 maxLines = 3,
                 modifier = Modifier.weight(1f)
