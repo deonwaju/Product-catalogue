@@ -35,6 +35,7 @@ import com.deonolarewaju.product_catalogue.util.Dimens.ExtraSmallPadding2
 import com.deonolarewaju.product_catalogue.util.Dimens.MediumPadding1
 import com.deonolarewaju.product_catalogue.util.Dimens.MediumTextSize
 import com.deonolarewaju.product_catalogue.util.Dimens.ProductCardSize
+import java.text.DecimalFormat
 
 @Composable
 fun ProductListItem(
@@ -57,15 +58,15 @@ fun ProductListItem(
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(MediumPadding1))
+            Spacer(modifier = Modifier.height(ExtraSmallPadding2))
             Text(
                 text = "Rating: ${product.rating}",
                 fontSize = MediumTextSize,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(ExtraSmallPadding2)
+                modifier = Modifier.padding(ExtraSmallPadding)
             )
         }
-        Spacer(modifier = Modifier.height(ExtraSmallPadding2))
+        Spacer(modifier = Modifier.height(ExtraSmallPadding))
         Column(
             verticalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
@@ -81,13 +82,13 @@ fun ProductListItem(
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "$ $discountPrice",
+                    text = formatAsCurrency(discountPrice),
                     fontSize = MediumTextSize,
                     fontWeight = FontWeight.SemiBold,
                 )
                 Spacer(modifier = Modifier.width(ExtraSmallPadding))
                 Text(
-                    text = "$ ${product.price}",
+                    text = "$${product.price}",
                     fontSize = MediumTextSize,
                     fontWeight = FontWeight.SemiBold,
                     color = colorResource(id = R.color.grey_fade_out)
@@ -97,7 +98,7 @@ fun ProductListItem(
             Text(
                 text = product.description,
                 fontSize = MediumTextSize,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Light,
                 maxLines = 3,
                 modifier = Modifier.weight(1f)
             )
@@ -109,6 +110,12 @@ fun calculateNewPrice(originalPrice: Double, discountPercentage: Double): Double
     val discountAmount = originalPrice * (discountPercentage / 100)
     return originalPrice - discountAmount
 }
+
+fun formatAsCurrency(value: Double): String {
+    val decimalFormat = DecimalFormat("0.00")
+    return "$" + decimalFormat.format(value)
+}
+
 @Preview
 @Composable
 fun PreviewMe() {
