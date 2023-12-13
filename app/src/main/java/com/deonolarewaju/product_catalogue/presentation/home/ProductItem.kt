@@ -31,6 +31,8 @@ import com.deonolarewaju.product_catalogue.util.Dimens.MediumTextSize
 import com.deonolarewaju.product_catalogue.util.Dimens.ProductCardSize
 import com.deonolarewaju.product_catalogue.util.Dimens.ProductImageSize
 import com.deonolarewaju.product_catalogue.util.Dimens.SmallTextSize
+import com.deonolarewaju.product_catalogue.util.calculateNewPrice
+import com.deonolarewaju.product_catalogue.util.formatAsCurrency
 import java.text.DecimalFormat
 
 @Composable
@@ -108,16 +110,6 @@ fun ProductListItem(
     }
 }
 
-fun calculateNewPrice(originalPrice: Double, discountPercentage: Double): Double {
-    val discountAmount = originalPrice * (discountPercentage / 100)
-    return originalPrice - discountAmount
-}
-
-fun formatAsCurrency(value: Double): String {
-    val decimalFormat = DecimalFormat("0.00")
-    return "$" + decimalFormat.format(value)
-}
-
 @Preview
 @Composable
 fun PreviewMe() {
@@ -126,7 +118,7 @@ fun PreviewMe() {
         1,
         "",
         "",
-        "",
+        "hello world people, do you have what it takes to create a product with this name and description and scale it",
         1.0,
         listOf(),
         2,
