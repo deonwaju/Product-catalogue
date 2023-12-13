@@ -1,5 +1,6 @@
 package com.deonolarewaju.product_catalogue.presentation.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,12 +39,14 @@ import java.text.DecimalFormat
 @Composable
 fun ProductListItem(
     product: Product,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
     val discountPrice = calculateNewPrice(product.price.toDouble(), product.discountPercentage)
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
+            .clickable { onClick?.invoke() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
