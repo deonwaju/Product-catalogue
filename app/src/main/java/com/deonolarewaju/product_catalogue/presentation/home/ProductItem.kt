@@ -31,13 +31,11 @@ import com.deonolarewaju.product_catalogue.util.Dimens.ExtraSmallPadding2
 import com.deonolarewaju.product_catalogue.util.Dimens.MediumTextSize
 import com.deonolarewaju.product_catalogue.util.Dimens.ProductCardSize
 import com.deonolarewaju.product_catalogue.util.Dimens.ProductImageSize
-import com.deonolarewaju.product_catalogue.util.Dimens.SmallTextSize
 import com.deonolarewaju.product_catalogue.util.calculateNewPrice
 import com.deonolarewaju.product_catalogue.util.formatAsCurrency
-import java.text.DecimalFormat
 
 @Composable
-fun ProductListItem(
+fun ProductCardItem(
     product: Product,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
@@ -130,5 +128,5 @@ fun PreviewMe() {
         "",
         ""
     )
-    ProductListItem(product)
+    ProductCardItem(product)
 }

@@ -34,12 +34,10 @@ import com.deonolarewaju.product_catalogue.util.formatAsCurrency
 @Composable
 fun ProductDetailsScreen(
     navController: NavController,
+    product: Product
 ) {
     val context = LocalContext.current
 
-    val product = remember {
-        requireNotNull(navController.previousBackStackEntry?.arguments?.getParcelable<Product>("product"))
-    }
     val discountPrice = calculateNewPrice(product.price.toDouble(), product.discountPercentage)
 
     Column(

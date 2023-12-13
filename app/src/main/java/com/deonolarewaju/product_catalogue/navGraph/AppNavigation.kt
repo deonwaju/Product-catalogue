@@ -1,6 +1,8 @@
 package com.deonolarewaju.product_catalogue.navGraph
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -23,9 +25,14 @@ fun AppNavigation() {
             ProductListScreen(navController)
         }
         composable("productDetailsScreen") {
-            val viewModel: DetailsViewModel = hiltViewModel()
-//            val state = viewModel.state.value
-            ProductDetailsScreen(navController)
+
+            navController.previousBackStackEntry?.savedStateHandle?.get<Product?>("product")
+                ?.let { product ->
+                    ProductDetailsScreen(
+                        navController = navController,
+                        product = product,
+                    )
+                }
         }
     }
 }
