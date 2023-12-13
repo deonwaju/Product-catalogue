@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -97,9 +98,10 @@ fun ProductListItem(
             Spacer(modifier = Modifier.height(ExtraSmallPadding2))
             Text(
                 text = product.description,
-                fontSize = SmallTextSize,
+                fontSize = MediumTextSize,
                 fontWeight = FontWeight.Light,
                 maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f)
             )
         }
