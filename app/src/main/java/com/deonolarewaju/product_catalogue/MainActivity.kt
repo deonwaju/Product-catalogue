@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.deonolarewaju.product_catalogue.presentation.home.ProductListScreen
+import com.deonolarewaju.product_catalogue.navGraph.AppNavigation
 import com.deonolarewaju.product_catalogue.ui.theme.ProductcatalogueTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ProductListScreen()
+                    AppNavigation()
                 }
             }
         }

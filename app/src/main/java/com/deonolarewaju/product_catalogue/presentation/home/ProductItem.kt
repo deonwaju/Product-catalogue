@@ -1,5 +1,6 @@
 package com.deonolarewaju.product_catalogue.presentation.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,16 +17,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.deonolarewaju.product_catalogue.R
 import com.deonolarewaju.product_catalogue.domain.model.Product
+import com.deonolarewaju.product_catalogue.util.Dimens
 import com.deonolarewaju.product_catalogue.util.Dimens.ExtraSmallPadding
 import com.deonolarewaju.product_catalogue.util.Dimens.ExtraSmallPadding2
 import com.deonolarewaju.product_catalogue.util.Dimens.MediumTextSize
@@ -42,8 +48,12 @@ fun ProductCardItem(
 ) {
     val context = LocalContext.current
     val discountPrice = calculateNewPrice(product.price.toDouble(), product.discountPercentage)
+    val painter = rememberImagePainter(
+        data = product.thumbnail
+    )
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .clickable { onClick?.invoke() },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -70,7 +80,7 @@ fun ProductCardItem(
                 modifier = Modifier.padding(ExtraSmallPadding)
             )
         }
-        Spacer(modifier = Modifier.height(ExtraSmallPadding))
+        Spacer(modifier = Modifier.width(ExtraSmallPadding2))
         Column(
             verticalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
@@ -84,6 +94,7 @@ fun ProductCardItem(
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                     modifier = Modifier.weight(1f)
+                        .padding(end = 4.dp)
                 )
                 Text(
                     text = formatAsCurrency(discountPrice),
@@ -95,7 +106,8 @@ fun ProductCardItem(
                     text = "$${product.price}",
                     fontSize = MediumTextSize,
                     fontWeight = FontWeight.Light,
-                    color = colorResource(id = R.color.grey_fade_out)
+                    color = Color.Gray,
+                    textDecoration = TextDecoration.LineThrough
                 )
             }
             Spacer(modifier = Modifier.height(ExtraSmallPadding2))

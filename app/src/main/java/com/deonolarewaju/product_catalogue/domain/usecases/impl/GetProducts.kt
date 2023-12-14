@@ -8,5 +8,6 @@ import kotlinx.coroutines.flow.Flow
 class GetProducts(
     private val iProductRepository: IProductRepository
 ) {
-    operator fun invoke(refreshDataFromRemote: Boolean): Flow<Resource<List<Product>>> = iProductRepository.fetchProducts(refreshDataFromRemote)
+    operator fun invoke(refreshDataFromRemote: Boolean): Flow<Resource<List<Product>>> =
+        iProductRepository.fetchProducts(refreshDataFromRemote)
 }
