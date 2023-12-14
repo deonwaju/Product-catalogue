@@ -9,12 +9,9 @@ object Dimens {
     val ExtraSmallPadding2 = 8.dp
     val SmallPadding = 16.dp
     val MediumPadding1 = 24.dp
-    val MediumPadding2 = 30.dp
-    val MediumPadding3 = 40.dp
     val ProductImageSize = 80.dp
     val ProductDetailImageSize = 120.dp
     val ProductCardSize = 120.dp
     val SmallTextSize = 8.sp
     val MediumTextSize = 12.sp
-    val LargeTextSize = 24.sp
 }

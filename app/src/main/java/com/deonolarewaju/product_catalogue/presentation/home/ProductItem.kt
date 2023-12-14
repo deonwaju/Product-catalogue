@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -89,7 +90,7 @@ fun ProductCardItem(
         ) {
             Row {
                 Text(
-                    text = product.title,
+                    text = product.title.capitalize(),
                     fontSize = MediumTextSize,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,

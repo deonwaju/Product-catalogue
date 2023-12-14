@@ -13,12 +13,22 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailsViewModel @Inject constructor(
     private val productsUsecases: ProductsUsecases
-): ViewModel() {
+) : ViewModel() {
 
     var state by mutableStateOf(ProductDetailsState())
+
     fun getProduct(id: Int) {
         viewModelScope.launch {
-            productsUsecases.getProductById(id)
+            state = try {
+                val product = productsUsecases.getProductById(id)
+                if (product != null) {
+                    state.copy(product = product, error = null)
+                } else {
+                    state.copy(error = "Product not found")
+                }
+            } catch (e: Exception) {
+                state.copy(error = e.message)
+            }
         }
     }
 }
