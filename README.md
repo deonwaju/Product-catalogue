@@ -1,5 +1,7 @@
 # Catalogue App
 
+[Screen_recording_20231215_181628.webm](https://github.com/DeonWaju/Product-catalogue/assets/54560535/3c359ab5-90e6-4d7e-a402-da90bc55c469)
+
 ## Overview
 
 The Catalogue App is a Kotlin Jetpack Compose application that displays a variety of products. The app is built using MVVM (Model-View-ViewModel), MVI (Model-View-Intent), and follows a clean architecture pattern.
