@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.deonolarewaju.product_catalogue.navGraph.AppNavigation
 import com.deonolarewaju.product_catalogue.ui.theme.ProductcatalogueTheme
 import com.deonolarewaju.product_catalogue.util.Dimens
@@ -20,6 +24,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             ProductcatalogueTheme {
                 // A surface container using the 'background' color from the theme
@@ -39,7 +45,6 @@ fun AppContent() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Dimens.ExtraSmallPadding2)
     ) {
         AppNavigation()
     }

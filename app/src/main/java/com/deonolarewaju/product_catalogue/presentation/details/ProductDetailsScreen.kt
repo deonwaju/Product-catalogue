@@ -13,20 +13,28 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.deonolarewaju.product_catalogue.R
+import com.deonolarewaju.product_catalogue.data.local.room.entities.ProductEntity
 import com.deonolarewaju.product_catalogue.util.Dimens
 import com.deonolarewaju.product_catalogue.util.Dimens.ExtraSmallPadding
 import com.deonolarewaju.product_catalogue.util.Dimens.ExtraSmallPadding2
@@ -35,21 +43,47 @@ import com.deonolarewaju.product_catalogue.util.Dimens.SmallPadding
 import com.deonolarewaju.product_catalogue.util.calculateNewPrice
 import com.deonolarewaju.product_catalogue.util.formatAsCurrency
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailsScreen(
     id: Int,
+    navigateUp: () -> Unit,
     detailsViewModel: ProductDetailsViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     detailsViewModel.getProduct(id)
     val product = detailsViewModel.state.product
+
+    Scaffold(
+        topBar = {
+            AppBar(
+                title = product.title,
+                onBackClick = navigateUp
+            )
+        }
+    ) { padding ->
+       Column (
+           modifier = Modifier
+               .fillMaxSize()
+               .padding(padding),
+       ){
+           ProductDetails(product)
+       }
+    }
+}
+
+@Composable
+fun ProductDetails(
+    productEntity: ProductEntity
+) {
+    val context = LocalContext.current
+    val product = productEntity
     val discountPrice = calculateNewPrice(product.price.toDouble(), product.discountPercentage)
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(MediumPadding1),
         verticalArrangement = Arrangement.spacedBy(ExtraSmallPadding),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
             modifier = Modifier
@@ -119,5 +153,34 @@ fun ProductImagesItem(url: String) {
             .build(),
         contentDescription = null,
         contentScale = ContentScale.Crop
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppBar(
+    title: String,
+    onBackClick: () -> Unit,
+) {
+    TopAppBar(
+        title = {
+            Text(
+                text = title,
+            )
+        },
+        colors = TopAppBarDefaults.mediumTopAppBarColors(
+            containerColor = Color.Transparent,
+        ),
+        navigationIcon = {
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back_arrow),
+                    contentDescription = null
+                )
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
     )
 }

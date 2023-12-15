@@ -11,6 +11,7 @@ import com.deonolarewaju.product_catalogue.navGraph.Route.HomeScreenRoute
 import com.deonolarewaju.product_catalogue.navGraph.Route.ProductDetailsScreenRoute
 import com.deonolarewaju.product_catalogue.presentation.details.ProductDetailsScreen
 import com.deonolarewaju.product_catalogue.presentation.details.ProductDetailsViewModel
+import com.deonolarewaju.product_catalogue.presentation.home.HomeViewModel
 import com.deonolarewaju.product_catalogue.presentation.home.ProductListScreen
 
 @Composable
@@ -19,7 +20,11 @@ fun AppNavigation() {
 
     NavHost(navController, startDestination = HomeScreenRoute) {
         composable(HomeScreenRoute) {
+            val viewModel: HomeViewModel = hiltViewModel()
+            val state = viewModel.state
             ProductListScreen(
+                state = state,
+                event = viewModel::onEvent,
                 navigateToDetails = {
                     navigateToDetails(
                         navController = navController,
@@ -28,20 +33,13 @@ fun AppNavigation() {
                 }
             )
         }
-//        composable(ProductDetailsScreenRoute) {
-//            navController.previousBackStackEntry?.savedStateHandle?.get<Product?>("product")
-//                ?.let { product ->
-//                    ProductDetailsScreen(
-//                        product = product,
-//                    )
-//                }
-//        }
         composable(ProductDetailsScreenRoute) {
             navController.previousBackStackEntry?.savedStateHandle?.get<Product?>("product")
                 ?.let { product ->
-                    val detailsViewModel: ProductDetailsViewModel = hiltViewModel()
-                    detailsViewModel.getProduct(product.id)
-                    ProductDetailsScreen(product.id)
+                    ProductDetailsScreen(
+                        product.id,
+                        navigateUp = { navController.navigateUp() },
+                    )
                 }
         }
     }
