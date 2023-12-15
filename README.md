@@ -27,6 +27,7 @@ The Catalogue App is a Kotlin Jetpack Compose application that displays a variet
 
 ### Additional Compose Libraries
 - [com.google.accompanist:accompanist-swiperefresh:0.24.2-alpha](https://github.com/google/accompanist)
+- [com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta](https://github.com/google/accompanist)
 
 ### Dagger Hilt
 - [com.google.dagger:hilt-android:2.49](https://dagger.dev/hilt/)
