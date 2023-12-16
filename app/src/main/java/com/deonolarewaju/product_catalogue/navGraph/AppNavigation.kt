@@ -26,9 +26,11 @@ fun AppNavigation() {
                 state = state,
                 event = viewModel::onEvent,
                 navigateToDetails = {
-                    navigateToDetails(
+                    navigateTo(
                         navController = navController,
-                        product = it
+                        key = "product",
+                        route = ProductDetailsScreenRoute,
+                        data = it
                     )
                 }
             )
@@ -45,9 +47,7 @@ fun AppNavigation() {
     }
 }
 
-private fun navigateToDetails(navController: NavController, product: Product) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("product", product)
-    navController.navigate(
-        route = ProductDetailsScreenRoute
-    )
+private fun navigateTo(navController: NavController, key: String, route: String, data: Any? = null) {
+    navController.currentBackStackEntry?.savedStateHandle?.set(key, data)
+    navController.navigate(route)
 }
