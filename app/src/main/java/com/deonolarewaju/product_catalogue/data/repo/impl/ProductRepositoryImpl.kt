@@ -54,8 +54,7 @@ class ProductRepositoryImpl @Inject constructor(
             emit(Resource.Loading(false))
         }
     }.flowOn(ioDispatcher)
-
+    override suspend fun getProduct(id: Int): ProductEntity? = iProductLDS.getProduct(id)
     override suspend fun delete() = iProductLDS.deleteProducts()
     override suspend fun getProducts(): List<ProductEntity> = iProductLDS.getProducts()
-    override suspend fun getProduct(id: Int): ProductEntity? = iProductLDS.getProduct(id)
 }
