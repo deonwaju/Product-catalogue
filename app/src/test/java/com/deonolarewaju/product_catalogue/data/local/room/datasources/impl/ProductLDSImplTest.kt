@@ -1,27 +1,43 @@
 package com.deonolarewaju.product_catalogue.data.local.room.datasources.impl
 
+import android.content.Context
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.deonolarewaju.product_catalogue.data.local.room.ProductDatabase
 import com.deonolarewaju.product_catalogue.data.local.room.dao.ProductsDao
 import com.deonolarewaju.product_catalogue.data.local.room.datasources.interfaces.IProductLDS
 import com.deonolarewaju.product_catalogue.data.local.room.entities.ProductEntity
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 
+@RunWith(AndroidJUnit4::class)
 class ProductLDSImplTest {
 
 
-    @Mock
+    private lateinit var database: ProductDatabase
     private lateinit var dao: ProductsDao
     private lateinit var productLDS: IProductLDS
 
-    @BeforeEach
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        productLDS = ProductLDSImpl(dao)
+    @Before
+    fun setup() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        database = Room.inMemoryDatabaseBuilder(context, ProductDatabase::class.java).build()
+        dao = database.productDao
+    }
+
+    @After
+    fun closeDatabase() {
+        database.close()
     }
 
     @Test

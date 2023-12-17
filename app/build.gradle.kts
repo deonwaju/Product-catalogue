@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.androidx.junit.ktx)
     testImplementation(libs.junit)
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     androidTestImplementation(libs.androidx.test.ext.junit)
@@ -111,7 +112,7 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.4.2")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     testImplementation("org.mockito:mockito-core:5.3.1")
+    testImplementation(libs.junit)
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
 }
