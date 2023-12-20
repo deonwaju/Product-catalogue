@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Product-catalogue"
 include(":app")
-include(":navigateToPage")
