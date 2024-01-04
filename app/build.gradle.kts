@@ -78,7 +78,10 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 
     // Compose dependencies
-    implementation("androidx.navigation:navigation-compose:2.7.5")
+//    implementation("androidx.navigation:navigation-compose:2.7.5")    //navigation
+
+    implementation("com.github.deonwaju:dcompose-navigator:1.0.0-alpha")
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
     implementation("androidx.paging:paging-compose:1.0.0-alpha14")
     implementation("androidx.compose.material:material:1.5.4")
